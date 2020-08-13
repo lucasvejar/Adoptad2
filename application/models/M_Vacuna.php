@@ -23,7 +23,7 @@ class M_Vacuna extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $row = $query->result();
-            $new_object = new self();
+            $new_object = new M_Vacuna();
             $new_object->init($row[0]);
             return $new_object;
         }else {
@@ -39,7 +39,7 @@ class M_Vacuna extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
-                $new_object = new self();
+                $new_object = new M_Vacuna();
                 $new_object->init($row);
                 $result[] = $new_object;  
             }

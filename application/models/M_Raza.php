@@ -19,7 +19,7 @@ class M_Raza extends CI_Model {
 		if ($query->num_rows() > 0) {
 			$result = array();
 			foreach ($query->result() as $value) {
-				$object = new self();
+				$object = new M_Raza();
 				$object->init($value);
 				$result[] = $object;
 			}

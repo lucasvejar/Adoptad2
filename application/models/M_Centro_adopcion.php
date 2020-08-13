@@ -49,7 +49,7 @@ class M_Centro_adopcion extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() == 1) {
             $row = $query->result();
-            $new_object = new self();
+            $new_object = new M_Centro_adopcion();
             $new_object->init($row[0]);
             return $new_object;
         }else {
@@ -66,7 +66,7 @@ class M_Centro_adopcion extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
-                $new_object = new self();
+                $new_object = new M_Centro_adopcion();
                 $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Centro_adopcion
             }
@@ -85,7 +85,7 @@ class M_Centro_adopcion extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
-                $new_object = new self();
+                $new_object = new M_Centro_adopcion();
                 $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Centro_adopcion
             }

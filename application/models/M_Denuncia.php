@@ -34,7 +34,7 @@ class M_Denuncia extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
-                $new_object = new self();
+                $new_object = new M_Denuncia();
                 $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Denuncia
             }
@@ -53,7 +53,7 @@ class M_Denuncia extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
-                $new_object = new self();
+                $new_object = new M_Denuncia();
                 $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Denuncia
             }
@@ -72,7 +72,7 @@ class M_Denuncia extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
-                $new_object = new self();
+                $new_object = new M_Denuncia();
                 $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Denuncia
             }

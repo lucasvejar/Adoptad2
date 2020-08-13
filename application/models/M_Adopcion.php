@@ -36,7 +36,7 @@ class M_Adopcion extends CI_Model {
         
         if ($query->num_rows() == 1) {
             $row = $query->result();
-            $new_object = new self();
+            $new_object = new M_Adopcion();
             $new_object->init($row[0]);
             return $new_object;
         }else {
@@ -56,7 +56,7 @@ class M_Adopcion extends CI_Model {
         
         if ($query->num_rows() > 0) {
             $row = $query->result();
-            $new_object = new self();
+            $new_object = new M_Adopcion();
             $new_object->init($row[0]);
             $result = $new_object;  //----> el resultado seria un objeto M_Adopcion
             return $result;
@@ -75,7 +75,7 @@ class M_Adopcion extends CI_Model {
 
      if ($query->num_rows() > 0) {
         foreach ($query->result() as $row) {
-            $new_object = new self();
+            $new_object = new M_Adopcion();
             $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Adopcion
             }
@@ -94,7 +94,7 @@ class M_Adopcion extends CI_Model {
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
-                $new_object = new self();
+                $new_object = new M_Adopcion();
                 $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Adopcion
             }
@@ -114,7 +114,7 @@ class M_Adopcion extends CI_Model {
 
      if ($query->num_rows() > 0) {
         foreach ($query->result() as $row) {
-            $new_object = new self();
+            $new_object = new M_Adopcion();
             $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Adopcion
             }
@@ -139,11 +139,6 @@ class M_Adopcion extends CI_Model {
     }
     
     
-    function registrar()
-    {
-
-    }
-    
     function registrarAdopcion($idAdoptante,$idAnimal,$idCentro)
     {
      $datos = array(
@@ -155,20 +150,6 @@ class M_Adopcion extends CI_Model {
     );
      return $this->db->insert('adopcion', $datos);
  }
-
- function listarAdopciones()
- {
-
- }
-
-
-
-
- function fechaAdopcion()
- {
-
- }
-
 
     //-----> Devuelve el objeto M_Adopcion
  function getAdopcion()

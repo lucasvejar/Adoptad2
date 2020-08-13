@@ -16,7 +16,7 @@ class M_Especie extends CI_Model {
 		if ($query->num_rows() > 0) {
 			$result = array();
 			foreach ($query->result() as $value) {
-				$object = new self();
+				$object = new M_Especie();
 				$object->init($value);
 				$result[] = $object;
 			}
