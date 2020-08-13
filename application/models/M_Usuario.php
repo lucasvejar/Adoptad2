@@ -20,7 +20,7 @@ class M_Usuario extends CI_Model {
 		$this->dni_usuario = $row->dni_usuario;
 		$this->password = $row->password;
 		$this->nombre_usuario = $row->nombre_usuario;
-		$this-> apellido_usuario = $row-> apellido_usuario;
+		$this->apellido_usuario = $row->apellido_usuario;
 		$this->email_usuario = $row->email_usuario;
 		$this->telefono_usuario = $row->telefono_usuario;
 		$this->domicilio_usuario =$row->domicilio_usuario;
@@ -51,7 +51,7 @@ class M_Usuario extends CI_Model {
 			$query = $this->db->get();
 			if ($query->num_rows > 0) {
 				foreach ($query->result() as $row) {
-					$new_object - new self();
+					$new_object = new self();
 					$new_object->init($row);
 					$result[] = $new_object;
 					return $result;
