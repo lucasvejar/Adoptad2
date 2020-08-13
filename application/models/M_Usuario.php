@@ -43,24 +43,24 @@ class M_Usuario extends CI_Model {
 		} else {
 			return false;
 		}
-
-		function obtenerTodos()
-		{
-			$result = array();
-			$this->db->from('usuario');
-			$query = $this->db->get();
-			if ($query->num_rows > 0) {
-				foreach ($query->result() as $row) {
-					$new_object = new M_Usuario();
-					$new_object->init($row);
-					$result[] = $new_object;
-					return $result;
-				}
-			} else {
-				return false;
-			}
-		}
 	}
+
+	function obtenerTodos()
+	{
+		$result = array();
+		$this->db->from('usuario');
+		$query = $this->db->get();
+		if ($query->num_rows > 0) {
+			foreach ($query->result() as $row) {
+				$new_object = new M_Usuario();
+				$new_object->init($row);
+				$result[] = $new_object;
+				return $result;
+			}
+		} else {
+			return false;
+		}
+	}	
 
 	function IniciarSesion($email_usuario,$password)
 	{

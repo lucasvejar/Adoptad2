@@ -36,7 +36,7 @@ class M_Denuncia extends CI_Model {
             foreach ($query->result() as $row) {
                 $new_object = new M_Denuncia();
                 $new_object->init($row);
-                $result[] = $new_object;  //----> el resultado seria un array de objetos M_Denuncia
+                $result[] = $new_object;  
             }
             return $result;
         }else {
@@ -44,7 +44,7 @@ class M_Denuncia extends CI_Model {
         }
     }
     
-    //---> obtiene todas las Denuncias por centro
+
     function obtenerDenunciasPorCentro($id_centro)
     {
         $result = array();
@@ -55,7 +55,7 @@ class M_Denuncia extends CI_Model {
             foreach ($query->result() as $row) {
                 $new_object = new M_Denuncia();
                 $new_object->init($row);
-                $result[] = $new_object;  //----> el resultado seria un array de objetos M_Denuncia
+                $result[] = $new_object;  
             }
             return $result;
         }else {
@@ -74,7 +74,7 @@ class M_Denuncia extends CI_Model {
             foreach ($query->result() as $row) {
                 $new_object = new M_Denuncia();
                 $new_object->init($row);
-                $result[] = $new_object;  //----> el resultado seria un array de objetos M_Denuncia
+                $result[] = $new_object;  
             }
             return $result;
         }else {
@@ -82,7 +82,7 @@ class M_Denuncia extends CI_Model {
         }
     }
     
-    //------------ Guarda una nueva denuncia en la bd
+    
     function registrarDenuncia($id_motivo,$detalle,$id_adoptante,$id_usuario,$id_centro)
     {
         $datos = array(
@@ -97,29 +97,19 @@ class M_Denuncia extends CI_Model {
     }
     
     
-    //-----> funcion que devuelve el objeto M_Denuncia
     function getDenuncia()
     {
         return $this;
     }
     
     
-    //-------> Funcion que devuelve el motivo de la denuncia
     function getMotivo($id_motivo)
     {
         $this->db->from('motivo_denuncia');
         $this -> db -> where('id_motivo',$id_motivo);
         $query = $this-> db -> get();
-        if ($query -> num_rows() > 0){
-            return $query;
-        }else{
-            return false;
-        }
+        return ($query -> num_rows() > 0) ? $query : false ;
     }
-    
-    
-    
-    
-    
+
     
 }

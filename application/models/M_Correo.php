@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_correo extends CI_Model {
 
-
     //-----> Genera el mensaje del correo de una denuncia para un adoptante
     public function generarCorreoDenuncia($adoptante)
     {
@@ -32,8 +31,8 @@ class M_correo extends CI_Model {
         $config = array(
             'protocol' => 'smtp',
             'smtp_host' => 'smtp.googlemail.com', 
-            'smtp_user' => 'adopta2app@gmail.com', //Su Correo de Gmail Aqui
-            'smtp_pass' => 'aplicacionadopta2', // Su Password de Gmail aqui
+            'smtp_user' => 'adopta2app@gmail.com', //Correo de Gmail Aqui
+            'smtp_pass' => 'aplicacionadopta2', //Password de Gmail aqui
             'smtp_port' => '465',
             'smtp_crypto' => 'ssl',
             'mailtype' => 'html',

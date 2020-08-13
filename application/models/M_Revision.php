@@ -26,8 +26,6 @@ class M_Revision extends CI_Model {
     }
 
     
-    
-    //-----> obtiene una Revision
     function obtenerUno($id)
     {
         $this->db->from('revision');
@@ -44,33 +42,31 @@ class M_Revision extends CI_Model {
     }
     
     
-    //-----> obtiene las vacunas de un animal en una revision
     public function obtenerVacunas($id_animal) 
     {
-     $this->db->from("revision");
-     $this->db->where("id_vacuna IS NOT NULL");
-     $query = $this->db->get();
-     if ($query->num_rows() > 0) {
-        $row = $query->result();
-        $new_object = new M_Revision();
-        $new_object->init($row[0]);
-        return $new_object;
-    }else {
-        return false;
-    }
-}
-
-
-    //---> obtiene todas las Revisiones para un animal
-function obtenerRevisiones($id_animal)
-{
-    $result = array();
-    $this->db->from("revision")->where('id_animal',$id_animal);
-    $query = $this->db->get();
-    if ($query->num_rows() > 0) {
-        foreach ($query->result() as $row) {
+        $this->db->from("revision");
+        $this->db->where("id_vacuna IS NOT NULL");
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $row = $query->result();
             $new_object = new M_Revision();
-            $new_object->init($row);
+            $new_object->init($row[0]);
+            return $new_object;
+        }else {
+            return false;
+        }
+    }
+
+
+    function obtenerRevisiones($id_animal)
+    {
+        $result = array();
+        $this->db->from("revision")->where('id_animal',$id_animal);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $new_object = new M_Revision();
+                $new_object->init($row);
                 $result[] = $new_object;  //----> el resultado seria un array de objetos M_Revision para el animal $id_animal
             }
             return $result;
@@ -79,9 +75,7 @@ function obtenerRevisiones($id_animal)
         }
     }
     
-    
-    
-    //---> obtiene todas las Revisiones
+
     function obtenerTodos()
     {
         $result = array();
@@ -91,7 +85,7 @@ function obtenerRevisiones($id_animal)
             foreach ($query->result() as $row) {
                 $new_object = new M_Revision();
                 $new_object->init($row);
-                $result[] = $new_object;  //----> el resultado seria un array de objetos M_Revision
+                $result[] = $new_object;  
             }
             return $result;
         }else {
@@ -119,21 +113,15 @@ function obtenerRevisiones($id_animal)
                 'nombre_adoptante' => $adoptante -> nombre_adoptante,
                 'apellido_adoptante' => $adoptante -> apellido_adoptante,
                 'id_animal' => $obj -> id_animal
-            ]; 
-        }
+                ]; 
+            }
             return $data;  //----> devuelve un array asociativo con todos los datos necesarios para armar la tabla Revisiones
         } else {
             return false;
         }
     }
     
-    //---- este metodo me parece que no se necesita para nada ... EL METODO ESTA RE AL "!=($U=)I PORQUE ES UN GETTER NOMAS DE ULTIMA
-    function fechaUltimaRevision()
-    {
-        return $this -> fecha_revision;
-    }
-    
-     function getFecha()
+    function getFecha()
     {
         return $this -> fecha_revision;
     }
@@ -146,11 +134,7 @@ function obtenerRevisiones($id_animal)
         $diff = abs(strtotime($hoy) - strtotime($fecha_ultima_revision)); //---> calcula la diferencia entre ambas fechas
         $anios = floor($diff / (365*60*60*24));      
         $meses = floor(($diff - $anios * 365*60*60*24) / (30*60*60*24));
-        if ($meses > 6){
-            return true;  
-        } else {
-            return false;
-        }
+        return ($meses > 6) ? true : false ;
     }
     
     

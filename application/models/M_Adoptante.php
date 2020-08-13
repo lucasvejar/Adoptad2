@@ -35,7 +35,7 @@ class M_Adoptante extends CI_Model {
         $this -> denuncias = $this -> denuncia -> obtenerDenuncias($this -> id_adoptante);
     }
 
-    //-----> obtiene un Adoptante
+    
     function obtenerUno($id)
     {
         $this->db->from("adoptante")->where('id_adoptante',$id);
@@ -50,7 +50,7 @@ class M_Adoptante extends CI_Model {
         }
     }
     
-    //---> obtiene todos los adoptantes
+    
     function obtenerTodos()
     {
         $result = array();
@@ -60,7 +60,7 @@ class M_Adoptante extends CI_Model {
             foreach ($query->result() as $row) {
                 $new_object = new M_Adoptante();
                 $new_object->init($row);
-                $result[] = $new_object;  //----> el resultado seria un array de objetos M_Adoptante
+                $result[] = $new_object;  
             }
             return $result;
         }else {
@@ -86,11 +86,7 @@ class M_Adoptante extends CI_Model {
 
     function aptoAdoptar(){
         $query = $this->db->get_where('denuncia', array('id_adoptante' => $this->id_adoptante));
-        if ($query->num_rows() > 2) {
-            return false;
-        } else {
-            return true;
-        }
+        return ($query->num_rows() > 2) ? false : true ;
     }
     
     
@@ -127,7 +123,7 @@ class M_Adoptante extends CI_Model {
         }
     }
     
-    //---> cuenta las denuncias del adoptante y las devuelve
+    
     public function countDenuncias()
     {
         return ($this -> denuncias != false) ? count($this -> denuncias) : 0 ;

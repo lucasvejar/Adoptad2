@@ -15,8 +15,7 @@ class M_Vacuna extends CI_Model {
         $this -> nombre_vacuna = $row -> nombre_vacuna;
     }
     
-    
-    //-----> obtiene una vacuna
+  
     function obtenerUno($id_vacuna)
     {
         $this->db->from("vacuna")->where('id_vacuna',$id_vacuna);
@@ -31,7 +30,7 @@ class M_Vacuna extends CI_Model {
         }
     }
     
-    //---> obtiene todas las vacunas
+
     function obtenerTodos()
     {
         $result = array();
@@ -65,18 +64,6 @@ class M_Vacuna extends CI_Model {
             return false;
         }
     }
-    
-    
-    function buscarVacuna()
-    {
 
-    }
-    
-    function newVacuna()
-    {
-
-    }
-    
-    
     
 }

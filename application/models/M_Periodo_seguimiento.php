@@ -10,6 +10,7 @@ class M_Periodo_seguimiento extends CI_Model {
     public $fecha_fin_periodo;
     public $id_centro;
     public $adopciones;
+    private $cantVacunas = 4;
     
     
     function init($row)
@@ -109,11 +110,7 @@ class M_Periodo_seguimiento extends CI_Model {
         $this -> db -> where("fecha_fin_periodo >=",$fechaDesde);
         $this -> db -> or_where('fecha_inicio_periodo <=',$fechaHasta) -> where('fecha_fin_periodo >=',$fechaHasta);
         $query = $this -> db -> get();
-        if ($query -> num_rows() > 0){
-            return false;
-        } else {
-            return true;
-        }
+        return ($query -> num_rows() > 0) ? false : true ;
     }
     
     //------> funcion que hace las comprobaciones para obtener los animales no castrados de los adoptantes
@@ -122,8 +119,8 @@ class M_Periodo_seguimiento extends CI_Model {
         $listado = array();
         foreach ($this -> adopciones as $adopcion){
             $animal = $adopcion -> getAnimal();
-            if (!$animal->estaCastrado()){  //--> si el animal no esta castrado
-                $listado[] = $adopcion -> getAdoptante();  //---> obtiene el adoptante y lo añade a el listado de adoptantes
+            if (!$animal->estaCastrado()){  
+                $listado[] = $adopcion -> getAdoptante();  
             }
         }
         return $listado;
@@ -135,15 +132,15 @@ class M_Periodo_seguimiento extends CI_Model {
         $listado = array();
         foreach ($this -> adopciones as $adopcion){
             $animal = $adopcion -> getAnimal();
-            if ($animal -> vacunas){   //---> si vieine por este camino es porque el animal tiene vacunas
-                if (count($animal -> vacunas) < 4){   //--> compruebo cantidad de vacunas
+            if ($animal -> vacunas){  
+                if (count($animal -> vacunas) < $cantVacunas){   
                     $listado[] = $adopcion -> getAdoptante();
                 }
-            } else {  //-----> si viene por este camino entonces no tiene vacunas y lo agrego sin comprobar nada mas
+            } else { 
                 $listado[] = $adopcion -> getAdoptante();  
             }
         }
-        return $listado;  //----> devuelvo el listado de los adoptantes
+        return $listado; 
     }
     
     //-----------> funcion que hace las comprobaciones si la fecha de la ultima revision del animal fue hace 6 meses o mas
@@ -152,13 +149,13 @@ class M_Periodo_seguimiento extends CI_Model {
         $listado = array();
         foreach ($this -> adopciones as $adopcion){
             $animal = $adopcion -> getAnimal();
-            if ($animal -> revisiones != false){  //----> si viene por aca entonces quiere decir que tiene una o mas revisiones
-                $ultima_revision = end($animal->revisiones);  //--> obtengo la ultima revision de ese animal
-                $fecha_ultima_revision = $ultima_revision -> getFecha();   //---> obtengo la fecha de es  revision
+            if ($animal -> revisiones != false){  
+                $ultima_revision = end($animal->revisiones);  
+                $fecha_ultima_revision = $ultima_revision -> getFecha();  
                 if ($ultima_revision -> compararFechas($fecha_ultima_revision)){   //---> si da true entonces la revision fue hace mas de 6 meses
                     $listado[] = $adopcion -> getAdoptante();
                 }
-            } else {  //----> si viene por aca es porque no tiene revisiones aun
+            } else {  
                 $listado[] = $adopcion -> getAdoptante(); 
             } 
         } 
@@ -166,7 +163,7 @@ class M_Periodo_seguimiento extends CI_Model {
     }
     
     
-    //----> Genera un listado con objetos M_Adoptante y lo devuelve como parametro
+    //----> Genera y devuelve un listado con objetos M_Adoptante
     function generarListaEmail($tipoPeriodo)
     {
         if (count($this -> adopciones) > 0) {
@@ -189,7 +186,6 @@ class M_Periodo_seguimiento extends CI_Model {
     }
 
     
-    //------> Inserta en la tabla periodo un nuevo periodo de seguimiento
     function registrarPeriodo($tipo,$fecha_inicio,$fecha_fin,$id_centro)
     {
         $data = array(
@@ -198,8 +194,7 @@ class M_Periodo_seguimiento extends CI_Model {
             'fecha_fin_periodo' => $fecha_fin,
             'id_centro' => $id_centro
         );
-        $this -> db -> insert('periodo_seguimiento',$data);
-        
+        $this -> db -> insert('periodo_seguimiento',$data);      
     }
     
 }
