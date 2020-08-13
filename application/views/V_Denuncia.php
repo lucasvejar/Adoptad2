@@ -194,19 +194,6 @@
 
 <script>
 
-    //----> Esta funcion validaba que dos nombres no sean numeros y no sean nulos
-    /*
-    function validoNombreApellido(){
-        var nombre = $('#nombre').val();
-        var apellido = $('#apellido').val();
-        if((nombre!="")&&(isNaN(nombre))&&(apellido)&&(isNaN(apellido))){
-            return true;
-        } else {
-            alert('Ingrese el nombre y apellido del adoptante');
-            return false;
-        }
-    }  */ 
-    
     //------> Si manda el formulario entonces pasa esto
     $('#formDenuncia').on('submit',function(event){
 
@@ -217,10 +204,9 @@
         
         //----> si el motivo de la denuncia es correcto pasa al otro if
         if (tipoDenuncia != "Seleccione motivo de la denuncia"){
-            // creo un nuevo Ajax
             $.ajax({
-                url: "<?= base_url('/C_Denuncia/registraDenuncia') ?>",     // The URL for the request
-                data: {              // The data to send (will be converted to a query string)
+                url: "<?= base_url('/C_Denuncia/registraDenuncia') ?>",     
+                data: {              
                     tipoDenuncia: tipoDenuncia,
                     descripcionDenuncia: $('#descripcionDenuncia').val(),
                     id_adoptante: id_adoptante
@@ -248,8 +234,6 @@
                     $('#cant').html("<h5>Cantidad de denuncias: </h5>"+ cantidad);
                 }
             })
-            // Code to run if the request succeeds (is done);
-            // The response is passed to the function
             .done(function( json ) {    
                 // si todo anda bien
                 console.log( "The request is good!" );
@@ -260,15 +244,12 @@
                 $('#selectMotivoDenuncia').val('');
                 $('#descripcionDenuncia').val('');
             })
-            // Code to run if the request fails; the raw request and
-            // status codes are passed to the function
             .fail(function( xhr, status, errorThrown ) {
                 alert( "Sorry, there was a problem!" );
                 console.log( "Error: " + errorThrown );
                 console.log( "Status: " + status );
                 console.dir( xhr );
             })
-            // Code to run regardless of success or failure;
             .always(function( xhr, status ) {
                 console.log( "The request is complete!" );
             });

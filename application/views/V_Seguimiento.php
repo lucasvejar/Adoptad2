@@ -168,18 +168,17 @@
     
     //------> validacion de fechas para mandar por el formulario
     function validoSeleccionFechas() {
-        //------> obtengo el valor de las fechas que elige
+        
         var fechaHasta = $('#fechaHasta').val();
         var fechaDesde = $('#fechaDesde').val();
         
-        if(fechaDesde == fechaHasta){  //-----> si las cadenas son iguales entonces la validacion es invalida
+        if(fechaDesde == fechaHasta){  
             console.log('son iguales');
             return false;
         } 
-        // fechaHasta = fechaHasta.split('-',3).reverse().join('-'); //---> esto da vuelta la cadena y la vuelve a unir con '-'  No lo use pero puede ser util
-        fechaHasta = fechaHasta.split('-',3);   //--> la fecha esta devuelta como un array separado con '-'
+        fechaHasta = fechaHasta.split('-',3);   
         console.log(fechaHasta); 
-        fechaDesde = fechaDesde.split('-',3);    //--> la fecha esta devuelta como un array separado con '-'
+        fechaDesde = fechaDesde.split('-',3); 
         console.log(fechaDesde);
         
         //---> creo dos objetos Date con los datos de los array fechas
@@ -187,23 +186,15 @@
         fechaDesde = new Date(fechaDesde[0],fechaDesde[1],fechaDesde[2]);
         
         var hoy = new Date();
-        if(fechaDesde < hoy){ //--> si ela fecha de inicio es menor a la del dia de hoy esta mal
+        if(fechaDesde < hoy){ 
             console.log('la fecha es menor al dia de hoy y no es valida '+hoy);
             return false;
         }
-        if(fechaDesde<fechaHasta){   //----> si la fechaDesde es menor que hasta sale del validar sino no
-            console.log('estan bien');
-            return true;
-        } else {
-            console.log('estan mal');
-            return false;
-        }
-        
+        return (fechaDesde<fechaHasta ? true : false );
     }
     
-    //----> Cuando se cierra el modal donde ingresa los datos de periodo seguimiento
+    //----> Cuando se cierra el modal donde ingresa los datos de periodo seguimiento limpio los campos
     $('#modalPeriodo').on('hide.bs.modal', function (e) {
-        //----> Seteo los valores de vuelta en blanco asi elije de vuelta 
         $('#fechaDesde').val('');
         $('#fechaHasta').val('');
         $('#tipoPeriodo').val('');
