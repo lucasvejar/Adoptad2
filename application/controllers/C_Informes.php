@@ -15,7 +15,7 @@ class C_Informes extends CI_Controller {
 
 	public function index()
 	{
-		$data['centros'] = $this -> centro -> obtenerTodosActivos();  //--> obtiene los centros activos
+		$data['centros'] = $this -> centro -> obtenerTodosActivos();
 		$this->load->view('Plantillas/V_Header');
 		$this->load->view('V_Informes',$data);
 		$this->load->view('Plantillas/V_Footer');
@@ -28,92 +28,85 @@ class C_Informes extends CI_Controller {
 	{
 		switch ($this->input->post('informe')) {
 			case 'animales':
-
-			$this->load->model('M_Centro_adopcion');
-			$centrosSeleccionados = $this->input->post('centros');
-			foreach ($centrosSeleccionados as $idCentro) {
-				$CA= $this->M_Centro_adopcion->obtenerUno($idCentro);
-				$centroActual = new stdClass();
-				$centroActual->nombreCA = $CA->nombre_ca;
-				if ($CA->animales) {
-					$vacio =true;
-					foreach ($CA->animales as $animal) {
-						if (!($animal->estaAdoptado()) && $animal->estado_animal=="activo") {
-							$centroActual->animales[] = $animal;
-							$vacio=false;
+				$this->load->model('M_Centro_adopcion');
+				$centrosSeleccionados = $this->input->post('centros');
+				foreach ($centrosSeleccionados as $idCentro) {
+					$CA= $this->M_Centro_adopcion->obtenerUno($idCentro);
+					$centroActual = new stdClass();
+					$centroActual->nombreCA = $CA->nombre_ca;
+					if ($CA->animales) {
+						$vacio =true;
+						foreach ($CA->animales as $animal) {
+							if (!($animal->estaAdoptado()) && $animal->estado_animal=="activo") {
+								$centroActual->animales[] = $animal;
+								$vacio=false;
+							}
 						}
+						if ($vacio) {
+							$centroActual->animales = false;
+						}
+					} else {
+						$centroActual->animales = false;	
 					}
-					if ($vacio) {
-						$centroActual->animales = false;
-					}
-				} else {
-					$centroActual->animales = false;	
+					$datos[] = $centroActual;
+					
 				}
-				$datos[] = $centroActual;
-				
-			}
-			echo json_encode($datos);		// ARRAY DE OBJETOS (StdClass) con el nombre del CA y un array de sus animales
+				echo json_encode($datos);		// ARRAY DE OBJETOS (StdClass) con el nombre del CA y un array de sus animales
 			break;
 
 			case 'denuncias':
-			$this->load->model('M_Centro_adopcion');
-			$centrosSeleccionados = $this->input->post('centros');
-			$desde = $this->input->post('desde');
-			$hasta = $this->input->post('hasta');
+				$this->load->model('M_Centro_adopcion');
+				$centrosSeleccionados = $this->input->post('centros');
+				$desde = $this->input->post('desde');
+				$hasta = $this->input->post('hasta');
 
-			foreach ($centrosSeleccionados as $idCentro) {
-				$CA= $this->M_Centro_adopcion->obtenerUno($idCentro);
-				$centroActual = new stdClass();
-				$centroActual->nombreCA = $CA->nombre_ca;
-				if ($CA->denuncias) {
-					$centroActual->denuncias = $CA->denunciasPorFecha($desde,$hasta);
-					$centroActual->motivos = $CA->denunciasPorMotivo($centroActual->denuncias);
-					$centroActual->ciudades = $CA->denunciasPorCiudad($centroActual->denuncias);
+				foreach ($centrosSeleccionados as $idCentro) {
+					$CA= $this->M_Centro_adopcion->obtenerUno($idCentro);
+					$centroActual = new stdClass();
+					$centroActual->nombreCA = $CA->nombre_ca;
+					if ($CA->denuncias) {
+						$centroActual->denuncias = $CA->denunciasPorFecha($desde,$hasta);
+						$centroActual->motivos = $CA->denunciasPorMotivo($centroActual->denuncias);
+						$centroActual->ciudades = $CA->denunciasPorCiudad($centroActual->denuncias);
 
-				} else {
-					$centroActual->denuncias = 0;
+					} else {
+						$centroActual->denuncias = 0;
+					}
+					$datos[] = $centroActual;
 				}
-				$datos[] = $centroActual;
-			}
-			echo json_encode($datos);
+				echo json_encode($datos);
 			break;
 
 			case 'adopciones':
-			$this->load->model('M_Centro_adopcion');
-			$centrosSeleccionados = $this->input->post('centros');
-			foreach ($centrosSeleccionados as $idCentro) {
-				$CA= $this->M_Centro_adopcion->obtenerUno($idCentro);
-				$centroActual = new stdClass();
-				$centroActual->cantidadRevisiones = $CA->countRevisiones($this->input->post('desde'),$this->input->post('hasta'));
-				$centroActual->nombreCA = $CA->nombre_ca;
-				if ($CA->adopciones) {
-					$vacio=true;
-					foreach ($CA->adopciones as $adopcion) {
-						if ((strtotime($adopcion->fecha_adopcion) >= strtotime($this->input->post('desde'))) && (strtotime($adopcion->fecha_adopcion) <= strtotime($this->input->post('hasta')))) {
-							$centroActual->animales[] = $adopcion->animal;
-							$vacio=false; 
+				$this->load->model('M_Centro_adopcion');
+				$centrosSeleccionados = $this->input->post('centros');
+				foreach ($centrosSeleccionados as $idCentro) {
+					$CA= $this->M_Centro_adopcion->obtenerUno($idCentro);
+					$centroActual = new stdClass();
+					$centroActual->cantidadRevisiones = $CA->countRevisiones($this->input->post('desde'),$this->input->post('hasta'));
+					$centroActual->nombreCA = $CA->nombre_ca;
+					if ($CA->adopciones) {
+						$vacio=true;
+						foreach ($CA->adopciones as $adopcion) {
+							if ((strtotime($adopcion->fecha_adopcion) >= strtotime($this->input->post('desde'))) && (strtotime($adopcion->fecha_adopcion) <= strtotime($this->input->post('hasta')))) {
+								$centroActual->animales[] = $adopcion->animal;
+								$vacio=false; 
+							}
 						}
-					}
-					if ($vacio) {
+						if ($vacio) {
+							$centroActual->animales = false;
+						}
+					}else{
 						$centroActual->animales = false;
 					}
-				}else{
-					$centroActual->animales = false;
+					$datos[] = $centroActual;
 				}
-				$datos[] = $centroActual;
-			}
-			echo json_encode($datos);
+				echo json_encode($datos);
 			break;
 		}
 	}
     
     
-	function prueba()
-	{
-		$this->load->model('M_Centro_adopcion');
-		echo $this->M_Centro_adopcion->countRevisiones("2018-11-05","2018-11-10");
-	}
-
 	/*Este metodo guarda los nombres de las imagenes en SESSION*/
 	function salvarNombres()
 	{	
@@ -166,8 +159,6 @@ class C_Informes extends CI_Controller {
 	{
 		$this->session->unset_userdata('nombresImgs');
 	}
-
-
 
 }
 /* End of file C_Informes.php */

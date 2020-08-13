@@ -32,11 +32,7 @@ class C_Animal extends CI_Controller {
     {
         $datos=$this->input->post();
         $rta = array();
-        if ($this->animal->editar($datos)) {
-            $rta['status'] = 'success';
-        } else {
-            $rta['status'] = 'error';
-        }
+        $rta['status'] = ($this->animal->editar($datos)) ? 'success' : 'error' ;
         return json_encode($rta);
     }
     
@@ -53,7 +49,7 @@ class C_Animal extends CI_Controller {
         if ($this->upload->do_upload('imagenAlta')) {
             $datos['imagen']=$this->upload->data('file_name');
         } else {
-          echo $this->upload->display_errors();  
+            echo $this->upload->display_errors();  
             $datos['imagen']='dalmata.jpg';            //setear direccion de una imagen estandar
         }
         $rta = array();
@@ -61,15 +57,12 @@ class C_Animal extends CI_Controller {
             echo "Animal guardado exitosamente!";
         } else {
             echo "Error al guardar el animal!";
-
         }
     }
 
     
     function getAnimales()
     {
-        // $todos = $this->animal->getTodosJson();
-        //---> obtiene los animales por centro y los envia al ajax en formato JSON
         $animales = $this -> animal -> obtenerPorCentro($this->session->userdata('id_centro'));
         echo json_encode($animales);
     }
@@ -221,9 +214,6 @@ class C_Animal extends CI_Controller {
         }
         
     }
-
-    
-
 
 }
 

@@ -9,13 +9,13 @@ class C_Revision extends CI_Controller {
 		if (!$this->session->userdata('tipo_usuario')) {
 			redirect(base_url());
 		}
-        $this -> load -> model('M_Vacuna','vacuna'); //---> Cargo el modelo vacuna 
-        $this -> load -> model('M_Revision','revision');  //--> Cargo el modelo revision
+        $this -> load -> model('M_Vacuna','vacuna'); 
+        $this -> load -> model('M_Revision','revision');  
 	}
 
 	public function index()
 	{
-        $data['revisiones'] = $this -> revision -> obtenerTodos();  //---> obtiene todas las revisiones
+        $data['revisiones'] = $this -> revision -> obtenerTodos();  
 		$this->load->view('Plantillas/V_Header.php');
 		$this->load->view('V_Revision',$data);
 		$this->load->view('Plantillas/V_Footer.php');
@@ -28,7 +28,7 @@ class C_Revision extends CI_Controller {
 
 	public function NuevaRevision()
 	{
-        $data['vacunas'] = $this -> vacuna -> obtenerTodos(); //---> Obtengo todos los tipos de vacunas que hay
+        $data['vacunas'] = $this -> vacuna -> obtenerTodos(); 
 		$this->load->view('Plantillas/V_Header.php');
 		$this->load->view('V_NuevaRevision',$data);
 		$this->load->view('Plantillas/V_Footer.php');

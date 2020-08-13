@@ -25,16 +25,16 @@ class C_Denuncia extends CI_Controller {
     {
         $datos = $this->input->post();   //---> traigo los datos de post 
         $id_motivo = $datos['tipoDenuncia'];   //--> recupero el id_motivo de denuncia
-        $motivo = $this -> motivo -> obtenerUno($id_motivo);       //--> obtengo el array motivo denuncia con ese id_motivo
-        $datos['motivo'] = $motivo -> motivo_denuncia;    //---> le asigna el motivo_denuncia de ese objeto con ese id_motivo
+        $motivo = $this -> motivo -> obtenerUno($id_motivo);       
+        $datos['motivo'] = $motivo -> motivo_denuncia;    
         $usuario = $this -> usuario -> obtenerUno($this-> session -> userdata('id_usuario'));
         $datos['usuario'] = $usuario;
-        $adoptante = $this -> adoptante -> obtenerUno($datos['id_adoptante']);   //---> obtengo a el adoptante con el id_adoptante
-        $datos['cantidad_denuncias'] = $adoptante -> countDenuncias();        //--> cuenta las denuncias y se las asigna al arreglo 
-        $datos['adoptante'] = $adoptante -> nombre_adoptante;    //----> envia tambien datos del adoptante 
+        $adoptante = $this -> adoptante -> obtenerUno($datos['id_adoptante']);   
+        $datos['cantidad_denuncias'] = $adoptante -> countDenuncias();         
+        $datos['adoptante'] = $adoptante -> nombre_adoptante;    
         
-        //-----> guarda en la base de datos
-        $this -> denuncia -> registrarDenuncia(    //----> registra la denuncia a ese adoptante
+        //-----> registra la denuncia a ese adoptante en la base de datos
+        $this -> denuncia -> registrarDenuncia(  
                 $id_motivo,
                 $datos['descripcionDenuncia'],
                 $adoptante -> id_adoptante,
@@ -42,7 +42,7 @@ class C_Denuncia extends CI_Controller {
                 $this->session->userdata('id_centro')
             ); 
         
-        //-----> ACA TENGO QUE ENVIAR EL MAIL
+        //-----> ACA ENVIO EL MAIL
         $mensaje = $this -> correo -> generarCorreoDenuncia($adoptante); //---> genero el mensaje que se envia en correo
         $encabezado = "Denuncia"; //---> le seteo un header al mail
         $this -> correo -> enviarCorreo($adoptante->email_adoptante,$encabezado,$mensaje,null);

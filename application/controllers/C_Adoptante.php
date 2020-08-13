@@ -31,43 +31,39 @@ class C_Adoptante extends CI_Controller {
 		$datos["id_usuario"] = $this->session->userdata('id_usuario');
 		switch ($datos['TipoRevision']) {
 			case "Seguimiento":
-			if ($this->M_Revision->registrarRevision($datos)) {
-				echo 'Revision registrada correctamente';
-			} else {
-				echo 'Error al registrar la revision';
-			}
+				if ($this->M_Revision->registrarRevision($datos)) {
+					echo 'Revision registrada correctamente';
+				} else {
+					echo 'Error al registrar la revision';
+				}
 			break;
 			
 			case "Castracion":
-			$animal = $this->M_Animal->obtenerUno($datos['id_animal']);
-			if ($animal->estaCastrado()) {
-				echo 'El animal ya esta castrado!';
-			}else{
-				if ($this->M_Revision->registrarRevision($datos)) {
-					echo 'Revision registrada correctamente';
-				} else {
-					echo 'Error al registrar la revision';
+				$animal = $this->M_Animal->obtenerUno($datos['id_animal']);
+				if ($animal->estaCastrado()) {
+					echo 'El animal ya esta castrado!';
+				}else{
+					if ($this->M_Revision->registrarRevision($datos)) {
+						echo 'Revision registrada correctamente';
+					} else {
+						echo 'Error al registrar la revision';
+					}
 				}
-			}
 			break;
-
 			case "Vacunacion":
-			$animal = $this->M_Animal->obtenerUno($datos['id_animal']);
-			if ($animal->vacunasAplicadas($datos['tipoVacuna'])) {
-				echo 'La vacuna ya esta aplicada';
-			} else {
-				if ($this->M_Revision->registrarRevision($datos)) {
-					echo 'Revision registrada correctamente';
+				$animal = $this->M_Animal->obtenerUno($datos['id_animal']);
+				if ($animal->vacunasAplicadas($datos['tipoVacuna'])) {
+					echo 'La vacuna ya esta aplicada';
 				} else {
-					echo 'Error al registrar la revision';
+					if ($this->M_Revision->registrarRevision($datos)) {
+						echo 'Revision registrada correctamente';
+					} else {
+						echo 'Error al registrar la revision';
+					}
 				}
-			}
 			break;
-		}
-
-		
+		}	
 	}
-
 
 }
 
